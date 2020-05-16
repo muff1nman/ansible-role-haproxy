@@ -2,6 +2,13 @@
   package:
     name: haproxy
 
+- name: set selinux conf
+  seboolean:
+    name: haproxy_connect_any
+    state: yes
+    persistent: yes
+  when: ansible_os_family == "RedHat"
+
 - name: copy haproxy config
   copy:
     content: "{{ haproxy_config }}"
