@@ -22,3 +22,13 @@
     name: haproxy
     state: started
     enabled: yes
+
+- name: add firewall ports
+  firewalld:
+    port: "{{ item.port }}"
+    permanent: true
+    state: enabled
+    zone: "{{ item.zone }}"
+  notify: [ "firewalld" ]
+  loop: "{{ haproxy_firewalld_ports }}"
+  when: haproxy_firewalld_ports is defined
